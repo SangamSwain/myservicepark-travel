@@ -497,3 +497,143 @@ footer {
     }
 
 }
+
+#################################
+
+/* ================================
+   Article Page
+   ================================ */
+
+.article-hero {
+    padding: 100px 20px;
+    background: #f4f7f6;
+    text-align: center;
+}
+
+.article-hero-content {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.article-category {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin-bottom: 15px;
+}
+
+.article-hero h1 {
+    font-size: 48px;
+    line-height: 1.15;
+    margin-bottom: 20px;
+}
+
+.article-intro {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 20px;
+    line-height: 1.7;
+}
+
+
+.article-page {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 70px 20px;
+}
+
+.article-page section {
+    margin-bottom: 55px;
+}
+
+.article-page h2 {
+    font-size: 30px;
+    margin-bottom: 18px;
+}
+
+.article-page p {
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 18px;
+}
+
+.article-page ul {
+    padding-left: 25px;
+}
+
+.article-page li {
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+
+
+/* Video placeholder */
+
+.video-placeholder {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 25px;
+    padding: 30px;
+
+    background: #eeeeee;
+    border-radius: 12px;
+
+    text-align: center;
+}
+
+.video-placeholder p {
+    margin: 0;
+}
+
+
+/* Article CTA */
+
+.article-cta {
+    padding: 40px;
+    background: #f4f7f6;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.article-cta h2 {
+    margin-bottom: 12px;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .article-hero {
+        padding: 70px 20px;
+    }
+
+    .article-hero h1 {
+        font-size: 36px;
+    }
+
+    .article-intro {
+        font-size: 18px;
+    }
+
+    .article-page {
+        padding: 50px 20px;
+    }
+
+    .article-page h2 {
+        font-size: 26px;
+    }
+
+    .article-page p,
+    .article-page li {
+        font-size: 16px;
+    }
+
+    .article-cta {
+        padding: 30px 20px;
+    }
+}
