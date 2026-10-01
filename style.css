@@ -619,7 +619,192 @@ footer {
     .article-intro {
         font-size: 18px;
     }
+/* ================================
+   Destinations Page
+   ================================ */
 
+.page-hero {
+    padding: 90px 20px;
+    text-align: center;
+    background: #f4f7f6;
+}
+
+.page-hero h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+.page-hero p:not(.article-category) {
+    max-width: 700px;
+    margin: 0 auto;
+    font-size: 19px;
+    line-height: 1.7;
+}
+
+
+.destinations-page {
+    padding: 70px 20px;
+}
+
+
+.destination-category {
+    margin-bottom: 80px;
+}
+
+
+.category-heading {
+    margin-bottom: 30px;
+}
+
+.category-heading h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+}
+
+.category-heading p {
+    max-width: 700px;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+
+.destination-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(auto-fit, minmax(260px, 1fr));
+
+    gap: 25px;
+}
+
+
+.destination-card {
+    background: #ffffff;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 16px;
+
+    overflow: hidden;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.destination-card:hover {
+    transform: translateY(-5px);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+
+.destination-card-content {
+    padding: 28px;
+}
+
+
+.destination-tag {
+    display: inline-block;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 0.8px;
+
+    text-transform: uppercase;
+
+    margin-bottom: 12px;
+}
+
+
+.destination-card h3 {
+    font-size: 24px;
+
+    margin-bottom: 12px;
+}
+
+
+.destination-card p {
+    font-size: 16px;
+
+    line-height: 1.7;
+
+    margin-bottom: 20px;
+}
+
+
+.destination-card a {
+    font-weight: 700;
+
+    text-decoration: none;
+}
+
+
+.destination-card a:hover {
+    text-decoration: underline;
+}
+
+
+/* Travel CTA */
+
+.travel-cta {
+    padding: 70px 20px;
+
+    text-align: center;
+
+    background: #f4f7f6;
+}
+
+.travel-cta h2 {
+    font-size: 34px;
+
+    margin-bottom: 15px;
+}
+
+.travel-cta p {
+    max-width: 650px;
+
+    margin: 0 auto 25px;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+}
+
+
+/* Mobile */
+
+@media (max-width: 768px) {
+
+    .page-hero {
+        padding: 70px 20px;
+    }
+
+    .page-hero h1 {
+        font-size: 38px;
+    }
+
+    .destinations-page {
+        padding: 50px 20px;
+    }
+
+    .destination-category {
+        margin-bottom: 60px;
+    }
+
+    .category-heading h2 {
+        font-size: 28px;
+    }
+
+    .travel-cta h2 {
+        font-size: 28px;
+    }
+
+}
     .article-page {
         padding: 50px 20px;
     }
@@ -637,3 +822,6 @@ footer {
         padding: 30px 20px;
     }
 }
+
+######################################
+
