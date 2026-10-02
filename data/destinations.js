@@ -43,7 +43,7 @@ const DESTINATIONS_DATA = [
     coverImage: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1000&q=80",
     excerpt: "Asia's largest brackish water lagoon, famous for Irrawaddy dolphins and migratory bird sanctuaries.",
     readTime: "7 min read",
-    articleUrl: "#",
+    articleUrl: "articles/chilika-lake.html",
     bestTimeToVisit: "November to February",
     idealDuration: "1 - 2 Days"
   },
