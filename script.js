@@ -211,3 +211,163 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
   });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ==========================================
+     1. IMAGE CAROUSEL LOGIC
+     ========================================== */
+  const carousels = document.querySelectorAll('.carousel-container');
+
+  carousels.forEach(carousel => {
+    const track = carousel.querySelector('.carousel-track');
+    const slides = Array.from(track.children);
+    const nextBtn = carousel.querySelector('.carousel-btn.next');
+    const prevBtn = carousel.querySelector('.carousel-btn.prev');
+    const dotsNav = carousel.querySelector('.carousel-dots');
+    
+    let currentIndex = 0;
+
+    // Create dots dynamically
+    slides.forEach((_, idx) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+      if (idx === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => moveToSlide(idx));
+      dotsNav.appendChild(dot);
+    });
+
+    const dots = Array.from(dotsNav.children);
+
+    const moveToSlide = (index) => {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      
+      track.style.transform = `translateX(-${index * 100}%)`;
+      dots[currentIndex].classList.remove('active');
+      dots[index].classList.add('active');
+      currentIndex = index;
+    };
+
+    if (nextBtn) nextBtn.addEventListener('click', () => moveToSlide(currentIndex + 1));
+    if (prevBtn) prevBtn.addEventListener('click', () => moveToSlide(currentIndex - 1));
+  });
+
+  /* ==========================================
+     2. LIGHTBOX WITH ZOOM IN / OUT FEATURE
+     ========================================== */
+  const lightboxHTML = `
+    <div id="lightboxModal" class="lightbox-modal" aria-hidden="true">
+      <div class="lightbox-content">
+        <div class="lightbox-controls">
+          <button id="zoomIn" class="lightbox-btn">Zoom In (+)</button>
+          <button id="zoomOut" class="lightbox-btn">Zoom Out (-)</button>
+          <button id="zoomReset" class="lightbox-btn">Reset</button>
+        </div>
+        <button id="lightboxClose" class="lightbox-close" aria-label="Close">&times;</button>
+        <div class="lightbox-img-wrapper">
+          <img id="lightboxImg" class="lightbox-img" src="" alt="Enlarged view" />
+        </div>
+        <p id="lightboxCaption" class="lightbox-caption"></p>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+
+  const modal = document.getElementById('lightboxModal');
+  const modalImg = document.getElementById('lightboxImg');
+  const modalCaption = document.getElementById('lightboxCaption');
+  const closeBtn = document.getElementById('lightboxClose');
+  const zoomInBtn = document.getElementById('zoomIn');
+  const zoomOutBtn = document.getElementById('zoomOut');
+  const zoomResetBtn = document.getElementById('zoomReset');
+
+  let currentScale = 1;
+
+  const updateScale = () => {
+    modalImg.style.transform = `scale(${currentScale})`;
+  };
+
+  zoomInBtn.addEventListener('click', () => {
+    if (currentScale < 3) {
+      currentScale += 0.3;
+      updateScale();
+    }
+  });
+
+  zoomOutBtn.addEventListener('click', () => {
+    if (currentScale > 0.6) {
+      currentScale -= 0.3;
+      updateScale();
+    }
+  });
+
+  zoomResetBtn.addEventListener('click', () => {
+    currentScale = 1;
+    updateScale();
+  });
+
+  // Attach click to hero images & gallery thumbnails
+  document.addEventListener('click', (e) => {
+    if (e.target.matches('.article-hero-img, .gallery-thumb, .carousel-slide img')) {
+      modalImg.src = e.target.src;
+      modalCaption.textContent = e.target.alt || '';
+      currentScale = 1;
+      updateScale();
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+
+  const closeModal = () => {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+
+  /* ==========================================
+     3. STARTING POINT DISTANCE CALCULATOR
+     ========================================== */
+  const distanceMatrix = {
+    "chilika-lake": {
+      "Bhubaneswar": { dist: "70 km", time: "1 hr 45 min", route: "via NH-16 (towards Balugaon / Mangalajodi)" },
+      "Cuttack": { dist: "95 km", time: "2 hr 15 min", route: "via NH-16" },
+      "Berhampur": { dist: "110 km", time: "2 hr 30 min", route: "via NH-16 Northbound" },
+      "Puri": { dist: "50 km", time: "1 hr 15 min", route: "via Puri-Satapada Canal Road" }
+    },
+    "daringbadi": {
+      "Bhubaneswar": { dist: "245 km", time: "5 hr 45 min", route: "via NH-57 and Phulbani Ghat" },
+      "Cuttack": { dist: "260 km", time: "6 hr 10 min", route: "via Badamba - Narsinghpur route" },
+      "Berhampur": { dist: "125 km", time: "3 hr 30 min", route: "via Sorada Ghat Road" },
+      "Puri": { dist: "270 km", time: "6 hr 30 min", route: "via Bhubaneswar - Nayagarh" }
+    }
+  };
+
+  const calcBtn = document.getElementById('calculateDistanceBtn');
+  if (calcBtn) {
+    calcBtn.addEventListener('click', () => {
+      const destinationId = calcBtn.getAttribute('data-destination');
+      const startPoint = document.getElementById('startLocationSelect').value;
+      const resultBox = document.getElementById('distanceResult');
+
+      if (!startPoint) {
+        alert('Please select your starting location.');
+        return;
+      }
+
+      const info = distanceMatrix[destinationId]?.[startPoint];
+
+      if (info) {
+        resultBox.innerHTML = `
+          <p><strong>Distance:</strong> ${info.dist} (${info.time} drive)</p>
+          <p style="margin-top: 4px; font-size: 0.9rem; color: #334155;"><strong>Recommended Route:</strong> ${info.route}</p>
+        `;
+        resultBox.style.display = 'block';
+      }
+    });
+  }
+});
