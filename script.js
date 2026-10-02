@@ -1,11 +1,11 @@
 /* ==========================================================================
-   MYSERVICEPARK TRAVEL - INTERACTION & CAROUSEL ENGINE
+   MYSERVICEPARK TRAVEL - INTERACTION & INFINITE CAROUSEL ENGINE
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ==========================================
-     1. INSTAGRAM-STYLE CAROUSEL SYNC
+     1. INFINITE INSTAGRAM-STYLE CAROUSEL ENGINE
      ========================================== */
   const carousels = document.querySelectorAll('.insta-carousel-wrapper');
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!track || slides.length === 0) return;
 
-    // Create dynamic navigation dots
+    // Generate dynamic dots
     dotsContainer.innerHTML = '';
     slides.forEach((_, index) => {
       const dot = document.createElement('div');
@@ -38,13 +38,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const dots = Array.from(dotsContainer.children);
 
-    // Update active state based on scroll position
-    const updateActiveSlide = () => {
+    const getActiveIndex = () => {
       const scrollPosition = track.scrollLeft;
       const slideWidth = track.clientWidth;
-      const activeIndex = Math.round(scrollPosition / slideWidth);
+      return Math.round(scrollPosition / slideWidth);
+    };
 
-      // Update Slide Counter Badge (e.g. 1 / 3)
+    const updateActiveSlide = () => {
+      const activeIndex = getActiveIndex();
+      const currentSlide = slides[activeIndex];
+
+      if (!currentSlide) return;
+
+      // Update counter badge
       if (badge) {
         badge.textContent = `${activeIndex + 1} / ${slides.length}`;
       }
@@ -54,41 +60,51 @@ document.addEventListener('DOMContentLoaded', () => {
         dot.classList.toggle('active', idx === activeIndex);
       });
 
-      // Sync caption text under carousel
-      const currentSlide = slides[activeIndex];
-      if (currentSlide) {
-        const title = currentSlide.getAttribute('data-location') || 'Featured View';
-        const caption = currentSlide.getAttribute('data-caption') || currentSlide.querySelector('img')?.alt || '';
+      // Sync active caption & location
+      const title = currentSlide.getAttribute('data-location') || 'Featured View';
+      const caption = currentSlide.getAttribute('data-caption') || currentSlide.querySelector('img')?.alt || '';
 
-        if (captionTag) captionTag.innerHTML = `📍 ${title}`;
-        if (captionText) captionText.textContent = caption;
-      }
+      if (captionTag) captionTag.innerHTML = `📍 ${title}`;
+      if (captionText) captionText.textContent = caption;
     };
 
-    // Listen for manual swipe / scroll
+    // Scroll listener for manual touch swipes
     track.addEventListener('scroll', () => {
       window.requestAnimationFrame(updateActiveSlide);
     });
 
-    // Arrow Button Handlers
+    // INFINITE LOOP NEXT ACTION
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
-        track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+        const activeIndex = getActiveIndex();
+        if (activeIndex >= slides.length - 1) {
+          // Wrap around to start instantly
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+        }
       });
     }
 
+    // INFINITE LOOP PREVIOUS ACTION
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
-        track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+        const activeIndex = getActiveIndex();
+        if (activeIndex <= 0) {
+          // Wrap around to the last slide smoothly
+          track.scrollTo({ left: slides[slides.length - 1].offsetLeft, behavior: 'smooth' });
+        } else {
+          track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+        }
       });
     }
 
-    // Initialize initial state
+    // Initialize state
     updateActiveSlide();
   });
 
   /* ==========================================
-     2. FULLSCREEN LIGHTBOX & ZOOM ENGINE
+     2. FULLSCREEN LIGHTBOX & TAP-TO-ZOOM
      ========================================== */
   const lightboxHTML = `
     <div id="lightboxModal" class="lightbox-modal" aria-hidden="true">
@@ -119,20 +135,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentScale = 1;
 
   const setScale = (scale) => {
-    currentScale = Math.min(Math.max(scale, 0.6), 3); // Clamped between 0.6x and 3.0x
+    currentScale = Math.min(Math.max(scale, 0.6), 3);
     modalImg.style.transform = `scale(${currentScale})`;
   };
 
-  zoomInBtn.addEventListener('click', () => setScale(currentScale + 0.3));
-  zoomOutBtn.addEventListener('click', () => setScale(currentScale - 0.3));
-  zoomResetBtn.addEventListener('click', () => setScale(1));
+  if (zoomInBtn) zoomInBtn.addEventListener('click', () => setScale(currentScale + 0.3));
+  if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => setScale(currentScale - 0.3));
+  if (zoomResetBtn) zoomResetBtn.addEventListener('click', () => setScale(1));
 
-  // Double click photo to toggle zoom
-  modalImg.addEventListener('dblclick', () => {
-    setScale(currentScale === 1 ? 2 : 1);
+  // Double tap / click to zoom
+  modalImg.addEventListener('click', () => {
+    setScale(currentScale === 1 ? 1.8 : 1);
   });
 
-  // Attach Lightbox event listener to images across site
   document.addEventListener('click', (e) => {
     if (e.target.matches('.insta-slide img, .gallery-thumb, .article-hero-img')) {
       modalImg.src = e.target.src;
@@ -150,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.body.style.overflow = '';
   };
 
-  closeBtn.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => {
     if (e.target === modal || e.target.classList.contains('lightbox-viewport')) {
       closeModal();
@@ -164,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================
-     3. MOBILE NAVIGATION TOGGLE
+     3. RESPONSIVE MOBILE MENU
      ========================================== */
   const menuToggle = document.querySelector('.menu-toggle');
   const navMenu = document.querySelector('.nav-menu');
