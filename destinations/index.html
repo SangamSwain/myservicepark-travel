@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Explore Odisha Destinations | MyServicePark Travel</title>
-  <meta name="description" content="Browse and search Odisha's top beaches, hill stations, temples, waterfalls, and nature spots." />
-  
+  <title>Destinations Directory | MyServicePark Travel</title>
+  <meta name="description" content="Explore and search all curated travel destinations across Odisha." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="../style.css" />
 </head>
 <body>
@@ -21,51 +21,130 @@
         MyServicePark <span>Travel</span>
       </a>
 
-      <button class="menu-toggle" aria-label="Toggle Navigation">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
+      <button class="menu-toggle" aria-label="Toggle navigation">&#9776;</button>
 
       <nav class="nav-menu">
         <a href="../index.html" class="nav-link">Home</a>
         <a href="index.html" class="nav-link active">Destinations</a>
-        <a href="../articles/gopalpur-beach.html" class="nav-link">Latest Journal</a>
+        <a href="../articles/chilika-lake.html" class="nav-link">Latest Journal</a>
         <a href="https://myservicepark.com/" target="_blank" rel="noopener" class="nav-link nav-btn">Main Portal &nearr;</a>
       </nav>
     </div>
   </header>
 
   <!-- Page Header -->
-  <section style="padding: 3.5rem 0 1.5rem 0; text-align: center;">
-    <div class="container">
+  <section class="section-block container" style="padding-bottom: 1.5rem;">
+    <div class="section-center-header">
       <span class="section-tag">Directory</span>
       <h1 class="section-title">Explore Odisha Destinations</h1>
-      <p class="section-subtitle" style="margin: 0 auto 2.5rem auto;">Filter by category or search by keywords to plan your trip.</p>
+      <p class="section-description">Filter by category or search by keywords to plan your trip.</p>
+    </div>
+
+    <!-- Search & Filter Bar Controls -->
+    <div class="filter-controls-container">
+      <div class="search-input-wrapper">
+        <span class="search-icon">&#128065;</span>
+        <input type="text" id="destinationSearch" class="search-input" placeholder="Search by destination name, district, or keyword..." />
+      </div>
+
+      <div class="filter-tabs">
+        <button class="filter-btn active" data-category="all">All Places</button>
+        <button class="filter-btn" data-category="beaches">Beaches & Coast</button>
+        <button class="filter-btn" data-category="hills">Hills & Valleys</button>
+        <button class="filter-btn" data-category="heritage">Temples & Heritage</button>
+        <button class="filter-btn" data-category="nature">Nature & Wildlife</button>
+      </div>
     </div>
   </section>
 
-  <!-- Main Discovery Hub -->
-  <section style="padding-bottom: 5rem;">
-    <div class="container">
-      
-      <!-- Interactive Filter Bar -->
-      <div class="filter-controls">
-        <div class="search-box">
-          <span class="search-icon">🔍</span>
-          <input type="text" id="destination-search" class="search-input" placeholder="Search by name, district, or category (e.g. Gopalpur, Ganjam, Beach)..." />
+  <!-- Directory Cards Grid -->
+  <section class="section-block container" style="padding-top: 0;">
+    <div class="cards-grid" id="destinationsGrid">
+
+      <!-- Card 1 -->
+      <article class="destination-card" data-category="nature" data-keywords="chilika lake mangalajodi lagoon puri khordha bird sanctuary dolphins">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" alt="Chilika Lake" />
+          <span class="card-badge">Puri / Khordha</span>
         </div>
-
-        <div class="category-pills">
-          <button class="pill-btn active" data-category="all">All Places</button>
-          <button class="pill-btn" data-category="beaches">Beaches & Coast</button>
-          <button class="pill-btn" data-category="hills">Hills & Valleys</button>
-          <button class="pill-btn" data-category="temples">Temples & Heritage</button>
-          <button class="pill-btn" data-category="nature">Nature & Wildlife</button>
+        <div class="card-content">
+          <h3 class="card-title">Chilika Lake & Mangalajodi</h3>
+          <p class="card-text">Explore Asia's largest brackish lagoon, home to Irrawaddy dolphins and millions of winter migratory birds.</p>
+          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
         </div>
-      </div>
+      </article>
 
-      <!-- Destination Grid Output -->
-      <div id="all-destinations-grid" class="destinations-grid"></div>
+      <!-- Card 2 -->
+      <article class="destination-card" data-category="beaches" data-keywords="gopalpur beach sea ganjam lighthouse retreat coastal">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=800&q=80" alt="Gopalpur Beach" />
+          <span class="card-badge">Ganjam</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Gopalpur-on-Sea</h3>
+          <p class="card-text">A serene coastal retreat featuring historic lighthouses, golden sands, and peaceful sea breezes.</p>
+          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
+        </div>
+      </article>
 
+      <!-- Card 3 -->
+      <article class="destination-card" data-category="hills" data-keywords="koraput valley waterfalls eastern ghats coffee plantation hills">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" alt="Koraput Hills" />
+          <span class="card-badge">Koraput</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Koraput Valley & Waterfalls</h3>
+          <p class="card-text">Misty valleys, pine forests, organic coffee plantations, and breathtaking Eastern Ghats waterfalls.</p>
+          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="destination-card" data-category="heritage" data-keywords="konark sun temple heritage puri architecture stone sculptures">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80" alt="Konark Sun Temple" />
+          <span class="card-badge">Puri District</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Konark Sun Temple</h3>
+          <p class="card-text">A UNESCO World Heritage site showcasing 13th-century stone chariot architecture and intricate carvings.</p>
+          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Card 5 -->
+      <article class="destination-card" data-category="nature" data-keywords="similipal national park tiger reserve mayurbhanj forest waterfalls">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80" alt="Similipal National Park" />
+          <span class="card-badge">Mayurbhanj</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Similipal Biosphere Reserve</h3>
+          <p class="card-text">Dense sal forests, royal Bengal tigers, cascading Barehipani waterfalls, and pristine wilderness.</p>
+          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Card 6 -->
+      <article class="destination-card" data-category="hills" data-keywords="daringbadi Kashmir of odisha kandhamal pine forest snow cold hill station">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Daringbadi Hill Station" />
+          <span class="card-badge">Kandhamal</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Daringbadi Hill Station</h3>
+          <p class="card-text">Popularly known as the 'Kashmir of Odisha', offering pine valleys, coffee gardens, and cool climate retreats.</p>
+          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Empty State Message -->
+    <div id="noResults" class="no-results-box" style="display: none;">
+      <h3>No matching destinations found</h3>
+      <p>Try searching with a different keyword or resetting your filter category.</p>
     </div>
   </section>
 
@@ -81,22 +160,22 @@
         <ul>
           <li><a href="../index.html">Home</a></li>
           <li><a href="index.html">Destinations Directory</a></li>
-          <li><a href="../articles/gopalpur-beach.html">Gopalpur Beach Guide</a></li>
+          <li><a href="../articles/chilika-lake.html">Chilika Lake Journal</a></li>
         </ul>
       </div>
       <div class="footer-links">
         <h4>Connect</h4>
         <ul>
           <li><a href="https://myservicepark.com/" target="_blank" rel="noopener">MyServicePark Portal</a></li>
+          <li><a href="https://github.com/sangamswain/myservicepark-travel" target="_blank" rel="noopener">GitHub Project</a></li>
         </ul>
       </div>
     </div>
     <div class="container footer-bottom">
-      <p>&copy; 2026 MyServicePark Travel.</p>
+      <p>&copy; 2026 MyServicePark Travel. Built with clean code & hosted on GitHub Pages.</p>
     </div>
   </footer>
 
-  <script src="../data/destinations.js"></script>
   <script src="../script.js"></script>
 </body>
 </html>
