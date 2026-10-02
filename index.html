@@ -3,88 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MyServicePark Travel | Discover Odisha's Hidden Gems & Coastal Wonders</title>
-  <meta name="description" content="An authentic, immersive travel publication showcasing Odisha's beaches, hill stations, heritage temples, and natural wonders." />
-  
-  <!-- Google Fonts -->
+  <title>MyServicePark Travel | Handcrafted Odisha Travel Guides</title>
+  <meta name="description" content="Discover handpicked travel itineraries, photography, and travel guides across Odisha." />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Site Navigation -->
+  <!-- Navigation -->
   <header class="site-header">
     <div class="container nav-wrapper">
       <a href="index.html" class="brand-logo">
         MyServicePark <span>Travel</span>
       </a>
 
-      <button class="menu-toggle" aria-label="Toggle Navigation">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-      </button>
+      <button class="menu-toggle" aria-label="Toggle navigation">&#9776;</button>
 
       <nav class="nav-menu">
         <a href="index.html" class="nav-link active">Home</a>
         <a href="destinations/index.html" class="nav-link">Destinations</a>
-        <a href="articles/gopalpur-beach.html" class="nav-link">Latest Journal</a>
+        <a href="articles/chilika-lake.html" class="nav-link">Latest Journal</a>
         <a href="https://myservicepark.com/" target="_blank" rel="noopener" class="nav-link nav-btn">Main Portal &nearr;</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero" style="background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1800&q=80');">
+  <!-- Hero Banner -->
+  <section class="hero-section">
+    <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80');"></div>
     <div class="hero-overlay"></div>
     <div class="container hero-content">
-      <span class="hero-tag">Odisha Travel Journal</span>
+      <span class="section-tag hero-tag">Odisha Travel Journal</span>
       <h1 class="hero-title">Uncover the Soul of India’s Best Kept Secret</h1>
-      <p class="hero-description">From golden coastal shores and misty pine valleys to thousand-year-old stone heritage. Plan your next unforgettable Odisha journey.</p>
+      <p class="hero-subtitle">From golden coastal shores and misty pine valleys to thousand-year-old stone heritage. Plan your next unforgettable Odisha journey.</p>
       <div class="hero-actions">
-        <a href="destinations/index.html" class="btn btn-primary">Explore All Destinations</a>
-        <a href="articles/gopalpur-beach.html" class="btn btn-secondary" style="color: #FFF; border-color: #FFF;">Read Gopalpur Guide</a>
+        <a href="articles/chilika-lake.html" class="hero-btn primary">Read Chilika Lake Guide &rarr;</a>
+        <a href="destinations/index.html" class="hero-btn secondary">Explore All Destinations</a>
       </div>
     </div>
   </section>
 
-  <!-- Editorial Introduction -->
-  <section style="padding: 2rem 0 4rem 0;">
-    <div class="container" style="text-align: center; max-width: 780px;">
+  <!-- Vision Section -->
+  <section class="section-block container">
+    <div class="section-center-header">
       <span class="section-tag">Our Vision</span>
       <h2 class="section-title">An Authentic Guide to Exploring Odisha</h2>
-      <p class="section-subtitle" style="margin: 0 auto;">
-        We cut through generic tourist lists to bring you thoughtful, deep-dive travel journals. Discover local routes, travel budgets, best seasons, and hidden scenic spots curated with care.
-      </p>
+      <p class="section-description">We cut through generic tourist lists to bring you thoughtful, deep-dive travel journals. Discover local routes, travel budgets, best seasons, and hidden scenic spots curated with care.</p>
     </div>
   </section>
 
-  <!-- Featured Destinations Section -->
-  <section style="padding: 2rem 0 5rem 0;">
-    <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
-        <div>
-          <span class="section-tag">Handpicked Escapes</span>
-          <h2 class="section-title" style="margin-bottom: 0;">Featured Places</h2>
+  <!-- Featured Destinations Grid -->
+  <section class="section-block container">
+    <div class="section-header-flex">
+      <div>
+        <span class="section-tag">Handpicked Escapes</span>
+        <h2 class="section-title">Featured Places</h2>
+      </div>
+      <a href="destinations/index.html" class="text-link">Browse All Destinations &rarr;</a>
+    </div>
+
+    <div class="cards-grid">
+      <!-- Card 1 -->
+      <article class="destination-card">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" alt="Chilika Lake Lagoon" />
+          <span class="card-badge">Puri / Khordha</span>
         </div>
-        <a href="destinations/index.html" class="card-link" style="font-size: 1rem;">Browse All Destinations &rarr;</a>
-      </div>
+        <div class="card-content">
+          <h3 class="card-title">Chilika Lake & Mangalajodi</h3>
+          <p class="card-text">Explore Asia's largest brackish lagoon, home to Irrawaddy dolphins and millions of Siberian migratory birds.</p>
+          <a href="articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
+        </div>
+      </article>
 
-      <!-- Rendered dynamically by script.js -->
-      <div id="featured-destinations-grid" class="destinations-grid"></div>
+      <!-- Card 2 -->
+      <article class="destination-card">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=800&q=80" alt="Gopalpur Beach" />
+          <span class="card-badge">Ganjam</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Gopalpur-on-Sea</h3>
+          <p class="card-text">A quiet seaside retreat known for serene beaches, coconut groves, and colonial lighthouse history.</p>
+          <a href="destinations/index.html" class="card-link">Explore Guide &rarr;</a>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="destination-card">
+        <div class="card-image-wrap">
+          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" alt="Koraput Hills" />
+          <span class="card-badge">Koraput</span>
+        </div>
+        <div class="card-content">
+          <h3 class="card-title">Koraput Valley & Waterfalls</h3>
+          <p class="card-text">Misty valleys, coffee plantations, and breathtaking cascades nestled in Eastern Ghats highlands.</p>
+          <a href="destinations/index.html" class="card-link">Explore Guide &rarr;</a>
+        </div>
+      </article>
     </div>
   </section>
 
-  <!-- Main Website Connection Banner -->
-  <section style="background-color: var(--bg-secondary); padding: 4rem 0; border-y: 1px solid var(--border-light);">
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
-      <div style="max-width: 600px;">
-        <span class="section-tag">MyServicePark Ecosystem</span>
-        <h2 style="font-size: 1.85rem; margin-bottom: 0.5rem;">Need Travel Bookings or Local Services?</h2>
-        <p style="color: var(--text-muted);">Discover verified local services, stays, and booking solutions on our primary MyServicePark platform.</p>
+  <!-- Ecosystem Banner Section -->
+  <section class="section-block container">
+    <div class="ecosystem-box">
+      <div>
+        <span class="section-tag light">MyServicePark Ecosystem</span>
+        <h2 class="ecosystem-title">Need Travel Bookings or Local Services?</h2>
+        <p class="ecosystem-text">Discover verified local services, stays, cab arrangements, and booking solutions on our primary MyServicePark platform.</p>
       </div>
-      <a href="https://myservicepark.com/" target="_blank" rel="noopener" class="btn btn-primary">Visit MyServicePark &nearr;</a>
+      <a href="https://myservicepark.com/" target="_blank" rel="noopener" class="ecosystem-btn">Visit MyServicePark Portal &nearr;</a>
     </div>
   </section>
 
@@ -100,14 +132,14 @@
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="destinations/index.html">Destinations Directory</a></li>
-          <li><a href="articles/gopalpur-beach.html">Gopalpur Beach Guide</a></li>
+          <li><a href="articles/chilika-lake.html">Chilika Lake Journal</a></li>
         </ul>
       </div>
       <div class="footer-links">
         <h4>Connect</h4>
         <ul>
           <li><a href="https://myservicepark.com/" target="_blank" rel="noopener">MyServicePark Portal</a></li>
-          <li><a href="https://github.com/SangamSwain/myservicepark-travel" target="_blank" rel="noopener">GitHub Project</a></li>
+          <li><a href="https://github.com/sangamswain/myservicepark-travel" target="_blank" rel="noopener">GitHub Project</a></li>
         </ul>
       </div>
     </div>
@@ -116,7 +148,6 @@
     </div>
   </footer>
 
-  <script src="data/destinations.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
