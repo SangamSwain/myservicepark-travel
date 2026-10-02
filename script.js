@@ -22,21 +22,23 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!track || slides.length === 0) return;
 
     // Generate dynamic dots
-    dotsContainer.innerHTML = '';
-    slides.forEach((_, index) => {
-      const dot = document.createElement('div');
-      dot.classList.add('insta-dot');
-      if (index === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => {
-        track.scrollTo({
-          left: slides[index].offsetLeft,
-          behavior: 'smooth'
+    if (dotsContainer) {
+      dotsContainer.innerHTML = '';
+      slides.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.classList.add('insta-dot');
+        if (index === 0) dot.classList.add('active');
+        dot.addEventListener('click', () => {
+          track.scrollTo({
+            left: slides[index].offsetLeft,
+            behavior: 'smooth'
+          });
         });
+        dotsContainer.appendChild(dot);
       });
-      dotsContainer.appendChild(dot);
-    });
+    }
 
-    const dots = Array.from(dotsContainer.children);
+    const dots = dotsContainer ? Array.from(dotsContainer.children) : [];
 
     const getActiveIndex = () => {
       const scrollPosition = track.scrollLeft;
@@ -50,17 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!currentSlide) return;
 
-      // Update counter badge
       if (badge) {
         badge.textContent = `${activeIndex + 1} / ${slides.length}`;
       }
 
-      // Sync active dot
       dots.forEach((dot, idx) => {
         dot.classList.toggle('active', idx === activeIndex);
       });
 
-      // Sync active caption & location
       const title = currentSlide.getAttribute('data-location') || 'Featured View';
       const caption = currentSlide.getAttribute('data-caption') || currentSlide.querySelector('img')?.alt || '';
 
@@ -68,17 +67,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (captionText) captionText.textContent = caption;
     };
 
-    // Scroll listener for manual touch swipes
     track.addEventListener('scroll', () => {
       window.requestAnimationFrame(updateActiveSlide);
     });
 
-    // INFINITE LOOP NEXT ACTION
     if (nextBtn) {
       nextBtn.addEventListener('click', () => {
         const activeIndex = getActiveIndex();
         if (activeIndex >= slides.length - 1) {
-          // Wrap around to start instantly
           track.scrollTo({ left: 0, behavior: 'smooth' });
         } else {
           track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
@@ -86,12 +82,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // INFINITE LOOP PREVIOUS ACTION
     if (prevBtn) {
       prevBtn.addEventListener('click', () => {
         const activeIndex = getActiveIndex();
         if (activeIndex <= 0) {
-          // Wrap around to the last slide smoothly
           track.scrollTo({ left: slides[slides.length - 1].offsetLeft, behavior: 'smooth' });
         } else {
           track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
@@ -99,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // Initialize state
     updateActiveSlide();
   });
 
@@ -143,7 +136,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => setScale(currentScale - 0.3));
   if (zoomResetBtn) zoomResetBtn.addEventListener('click', () => setScale(1));
 
-  // Double tap / click to zoom
   modalImg.addEventListener('click', () => {
     setScale(currentScale === 1 ? 1.8 : 1);
   });
