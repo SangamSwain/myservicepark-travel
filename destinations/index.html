@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explore Odisha Destinations | MyServicePark Travel</title>
+  <meta name="description" content="Browse and search Odisha's top beaches, hill stations, temples, waterfalls, and nature spots." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrapper">
+      <a href="../index.html" class="brand-logo">
+        MyServicePark <span>Travel</span>
+      </a>
+
+      <button class="menu-toggle" aria-label="Toggle Navigation">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+
+      <nav class="nav-menu">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="index.html" class="nav-link active">Destinations</a>
+        <a href="../articles/gopalpur-beach.html" class="nav-link">Latest Journal</a>
+        <a href="https://myservicepark.com/" target="_blank" rel="noopener" class="nav-link nav-btn">Main Portal &nearr;</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page Header -->
+  <section style="padding: 3.5rem 0 1.5rem 0; text-align: center;">
+    <div class="container">
+      <span class="section-tag">Directory</span>
+      <h1 class="section-title">Explore Odisha Destinations</h1>
+      <p class="section-subtitle" style="margin: 0 auto 2.5rem auto;">Filter by category or search by keywords to plan your trip.</p>
+    </div>
+  </section>
+
+  <!-- Main Discovery Hub -->
+  <section style="padding-bottom: 5rem;">
+    <div class="container">
+      
+      <!-- Interactive Filter Bar -->
+      <div class="filter-controls">
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="destination-search" class="search-input" placeholder="Search by name, district, or category (e.g. Gopalpur, Ganjam, Beach)..." />
+        </div>
+
+        <div class="category-pills">
+          <button class="pill-btn active" data-category="all">All Places</button>
+          <button class="pill-btn" data-category="beaches">Beaches & Coast</button>
+          <button class="pill-btn" data-category="hills">Hills & Valleys</button>
+          <button class="pill-btn" data-category="temples">Temples & Heritage</button>
+          <button class="pill-btn" data-category="nature">Nature & Wildlife</button>
+        </div>
+      </div>
+
+      <!-- Destination Grid Output -->
+      <div id="all-destinations-grid" class="destinations-grid"></div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <h3>MyServicePark <span>Travel</span></h3>
+        <p>A minimalist travel magazine dedicated to highlighting the culture, landscapes, and unexplored destinations of Odisha, India.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="index.html">Destinations Directory</a></li>
+          <li><a href="../articles/gopalpur-beach.html">Gopalpur Beach Guide</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://myservicepark.com/" target="_blank" rel="noopener">MyServicePark Portal</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 MyServicePark Travel.</p>
+    </div>
+  </footer>
+
+  <script src="../data/destinations.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>
