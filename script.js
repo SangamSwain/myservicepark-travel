@@ -1,275 +1,109 @@
-/**
- * MYSERVICEPARK TRAVEL - FRONTEND INTERACTION CONTROLLER
- * Handles mobile drawer nav, subpath link resolution, dynamic destination search, and FAQs
- */
-
-document.addEventListener("DOMContentLoaded", () => {
-  initMobileNav();
-  initSubpathLinkResolver();
-  initFaqAccordion();
-  
-  // Render Featured Destinations on Homepage if container exists
-  if (document.getElementById("featured-destinations-grid")) {
-    renderFeaturedDestinations();
-  }
-
-  // Render All Destinations & Setup Search on Destinations Page if container exists
-  if (document.getElementById("all-destinations-grid")) {
-    initDestinationsPage();
-  }
-});
-
-/* --------------------------------------------------------------------------
-   1. Subpath Relative Path Normalizer (Ensures 100% fix for GitHub Pages subpaths)
-   -------------------------------------------------------------------------- */
-function getBasePath() {
-  const path = window.location.pathname;
-  if (path.includes("/articles/") || path.includes("/destinations/")) {
-    return "../";
-  }
-  return "./";
-}
-
-function initSubpathLinkResolver() {
-  const base = getBasePath();
-  
-  // Update internal links with base path if needed dynamically
-  document.querySelectorAll("[data-relative-href]").forEach(element => {
-    const relativeTarget = element.getAttribute("data-relative-href");
-    element.href = base + relativeTarget;
-  });
-}
-
-/* --------------------------------------------------------------------------
-   2. Responsive Mobile Navigation Toggle
-   -------------------------------------------------------------------------- */
-function initMobileNav() {
-  const menuToggle = document.querySelector(".menu-toggle");
-  const navMenu = document.querySelector(".nav-menu");
-
-  if (menuToggle && navMenu) {
-    menuToggle.addEventListener("click", () => {
-      navMenu.classList.toggle("is-active");
-    });
-
-    // Close when clicking outside
-    document.addEventListener("click", (e) => {
-      if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
-        navMenu.classList.remove("is-active");
-      }
-    });
-  }
-}
-
-/* --------------------------------------------------------------------------
-   3. Card HTML Builder Template
-   -------------------------------------------------------------------------- */
-function createDestinationCardHTML(item) {
-  const base = getBasePath();
-  const targetUrl = item.articleUrl === "#" ? "#" : base + item.articleUrl;
-  const isPlaceholder = item.articleUrl === "#";
-
-  return `
-    <article class="card">
-      <div class="card-img-wrapper">
-        <img src="${item.coverImage}" alt="${item.title}" class="card-img" loading="lazy" />
-        <span class="card-badge">${item.categoryLabel}</span>
-      </div>
-      <div class="card-content">
-        <div class="card-meta">${item.region} • ${item.readTime}</div>
-        <h3 class="card-title">${item.title}</h3>
-        <p class="card-excerpt">${item.excerpt}</p>
-        <a href="${targetUrl}" class="card-link">
-          ${isPlaceholder ? 'Guide Coming Soon' : 'Read Travel Guide'} &rarr;
-        </a>
-      </div>
-    </article>
-  `;
-}
-
-/* --------------------------------------------------------------------------
-   4. Render Featured Items on Homepage
-   -------------------------------------------------------------------------- */
-function renderFeaturedDestinations() {
-  const container = document.getElementById("featured-destinations-grid");
-  if (!container || typeof DESTINATIONS_DATA === "undefined") return;
-
-  const featuredList = DESTINATIONS_DATA.filter(item => item.featured);
-  container.innerHTML = featuredList.map(createDestinationCardHTML).join("");
-}
-
-/* --------------------------------------------------------------------------
-   5. Destinations Page Live Search & Filter Engine
-   -------------------------------------------------------------------------- */
-function initDestinationsPage() {
-  const container = document.getElementById("all-destinations-grid");
-  const searchInput = document.getElementById("destination-search");
-  const pillBtns = document.querySelectorAll(".pill-btn");
-
-  let currentCategory = "all";
-  let currentSearchQuery = "";
-
-  function updateDisplay() {
-    const filtered = getFilteredDestinations(currentCategory, currentSearchQuery);
-    
-    if (filtered.length === 0) {
-      container.innerHTML = `
-        <div class="empty-state" style="grid-column: 1 / -1;">
-          <h3>No Destinations Found</h3>
-          <p>We couldn't find anything matching "${currentSearchQuery}". Try another keyword or filter.</p>
-        </div>
-      `;
-      return;
-    }
-
-    container.innerHTML = filtered.map(createDestinationCardHTML).join("");
-  }
-
-  // Filter Pill Listener
-  pillBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      pillBtns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      currentCategory = btn.getAttribute("data-category");
-      updateDisplay();
-    });
-  });
-
-  // Live Search Input Listener
-  if (searchInput) {
-    searchInput.addEventListener("input", (e) => {
-      currentSearchQuery = e.target.value;
-      updateDisplay();
-    });
-  }
-
-  // Initial Render
-  updateDisplay();
-}
-
-/* --------------------------------------------------------------------------
-   6. FAQ Accordion Logic
-   -------------------------------------------------------------------------- */
-function initFaqAccordion() {
-  const faqQuestions = document.querySelectorAll(".faq-question");
-  
-  faqQuestions.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const parent = btn.parentElement;
-      parent.classList.toggle("active");
-    });
-  });
-}
-
-/* ==========================================
-   AUTOMATIC LIGHTBOX POPUP FUNCTIONALITY
-   ========================================== */
-document.addEventListener('DOMContentLoaded', () => {
-  // 1. Inject Lightbox HTML into body
-  const lightboxHTML = `
-    <div id="lightboxModal" class="lightbox-modal" aria-hidden="true">
-      <div class="lightbox-content">
-        <button id="lightboxClose" class="lightbox-close" aria-label="Close image popup">&times;</button>
-        <img id="lightboxImg" class="lightbox-img" src="" alt="Full view image" />
-        <p id="lightboxCaption" class="lightbox-caption"></p>
-      </div>
-    </div>
-  `;
-  document.body.insertAdjacentHTML('beforeend', lightboxHTML);
-
-  const modal = document.getElementById('lightboxModal');
-  const modalImg = document.getElementById('lightboxImg');
-  const modalCaption = document.getElementById('lightboxCaption');
-  const closeBtn = document.getElementById('lightboxClose');
-
-  // 2. Attach click handlers to all article images and gallery thumbnails
-  const clickableImages = document.querySelectorAll('.article-hero-img, .gallery-thumb');
-
-  clickableImages.forEach(img => {
-    img.addEventListener('click', () => {
-      modalImg.src = img.src;
-      modalImg.alt = img.alt || 'Enlarged Image';
-      modalCaption.textContent = img.alt || '';
-      modal.classList.add('active');
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden'; // Lock background scrolling
-    });
-  });
-
-  // 3. Close actions
-  const closeModal = () => {
-    modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  };
-
-  closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
-  });
-});
+/* ==========================================================================
+   MYSERVICEPARK TRAVEL - INTERACTION & CAROUSEL ENGINE
+   ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ==========================================
-     1. IMAGE CAROUSEL LOGIC
+     1. INSTAGRAM-STYLE CAROUSEL SYNC
      ========================================== */
-  const carousels = document.querySelectorAll('.carousel-container');
+  const carousels = document.querySelectorAll('.insta-carousel-wrapper');
 
   carousels.forEach(carousel => {
-    const track = carousel.querySelector('.carousel-track');
-    const slides = Array.from(track.children);
-    const nextBtn = carousel.querySelector('.carousel-btn.next');
-    const prevBtn = carousel.querySelector('.carousel-btn.prev');
-    const dotsNav = carousel.querySelector('.carousel-dots');
-    
-    let currentIndex = 0;
+    const track = carousel.querySelector('.insta-carousel-track');
+    const slides = Array.from(carousel.querySelectorAll('.insta-slide'));
+    const badge = carousel.querySelector('.insta-badge');
+    const captionTag = carousel.querySelector('.insta-location-tag');
+    const captionText = carousel.querySelector('.insta-caption-text');
+    const dotsContainer = carousel.querySelector('.insta-dots');
+    const prevBtn = carousel.querySelector('.insta-nav-btn.prev');
+    const nextBtn = carousel.querySelector('.insta-nav-btn.next');
 
-    // Create dots dynamically
-    slides.forEach((_, idx) => {
+    if (!track || slides.length === 0) return;
+
+    // Create dynamic navigation dots
+    dotsContainer.innerHTML = '';
+    slides.forEach((_, index) => {
       const dot = document.createElement('div');
-      dot.classList.add('dot');
-      if (idx === 0) dot.classList.add('active');
-      dot.addEventListener('click', () => moveToSlide(idx));
-      dotsNav.appendChild(dot);
+      dot.classList.add('insta-dot');
+      if (index === 0) dot.classList.add('active');
+      dot.addEventListener('click', () => {
+        track.scrollTo({
+          left: slides[index].offsetLeft,
+          behavior: 'smooth'
+        });
+      });
+      dotsContainer.appendChild(dot);
     });
 
-    const dots = Array.from(dotsNav.children);
+    const dots = Array.from(dotsContainer.children);
 
-    const moveToSlide = (index) => {
-      if (index < 0) index = slides.length - 1;
-      if (index >= slides.length) index = 0;
-      
-      track.style.transform = `translateX(-${index * 100}%)`;
-      dots[currentIndex].classList.remove('active');
-      dots[index].classList.add('active');
-      currentIndex = index;
+    // Update active state based on scroll position
+    const updateActiveSlide = () => {
+      const scrollPosition = track.scrollLeft;
+      const slideWidth = track.clientWidth;
+      const activeIndex = Math.round(scrollPosition / slideWidth);
+
+      // Update Slide Counter Badge (e.g. 1 / 3)
+      if (badge) {
+        badge.textContent = `${activeIndex + 1} / ${slides.length}`;
+      }
+
+      // Sync active dot
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle('active', idx === activeIndex);
+      });
+
+      // Sync caption text under carousel
+      const currentSlide = slides[activeIndex];
+      if (currentSlide) {
+        const title = currentSlide.getAttribute('data-location') || 'Featured View';
+        const caption = currentSlide.getAttribute('data-caption') || currentSlide.querySelector('img')?.alt || '';
+
+        if (captionTag) captionTag.innerHTML = `📍 ${title}`;
+        if (captionText) captionText.textContent = caption;
+      }
     };
 
-    if (nextBtn) nextBtn.addEventListener('click', () => moveToSlide(currentIndex + 1));
-    if (prevBtn) prevBtn.addEventListener('click', () => moveToSlide(currentIndex - 1));
+    // Listen for manual swipe / scroll
+    track.addEventListener('scroll', () => {
+      window.requestAnimationFrame(updateActiveSlide);
+    });
+
+    // Arrow Button Handlers
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+      });
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+      });
+    }
+
+    // Initialize initial state
+    updateActiveSlide();
   });
 
   /* ==========================================
-     2. LIGHTBOX WITH ZOOM IN / OUT FEATURE
+     2. FULLSCREEN LIGHTBOX & ZOOM ENGINE
      ========================================== */
   const lightboxHTML = `
     <div id="lightboxModal" class="lightbox-modal" aria-hidden="true">
-      <div class="lightbox-content">
+      <div class="lightbox-header-bar">
         <div class="lightbox-controls">
           <button id="zoomIn" class="lightbox-btn">Zoom In (+)</button>
           <button id="zoomOut" class="lightbox-btn">Zoom Out (-)</button>
           <button id="zoomReset" class="lightbox-btn">Reset</button>
         </div>
-        <button id="lightboxClose" class="lightbox-close" aria-label="Close">&times;</button>
-        <div class="lightbox-img-wrapper">
-          <img id="lightboxImg" class="lightbox-img" src="" alt="Enlarged view" />
-        </div>
-        <p id="lightboxCaption" class="lightbox-caption"></p>
+        <button id="lightboxClose" class="lightbox-close" aria-label="Close Lightbox">&times;</button>
       </div>
+      <div class="lightbox-viewport">
+        <img id="lightboxImg" class="lightbox-img" src="" alt="Full view" />
+      </div>
+      <p id="lightboxCaption" class="lightbox-caption-text"></p>
     </div>
   `;
   document.body.insertAdjacentHTML('beforeend', lightboxHTML);
@@ -284,90 +118,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let currentScale = 1;
 
-  const updateScale = () => {
+  const setScale = (scale) => {
+    currentScale = Math.min(Math.max(scale, 0.6), 3); // Clamped between 0.6x and 3.0x
     modalImg.style.transform = `scale(${currentScale})`;
   };
 
-  zoomInBtn.addEventListener('click', () => {
-    if (currentScale < 3) {
-      currentScale += 0.3;
-      updateScale();
-    }
+  zoomInBtn.addEventListener('click', () => setScale(currentScale + 0.3));
+  zoomOutBtn.addEventListener('click', () => setScale(currentScale - 0.3));
+  zoomResetBtn.addEventListener('click', () => setScale(1));
+
+  // Double click photo to toggle zoom
+  modalImg.addEventListener('dblclick', () => {
+    setScale(currentScale === 1 ? 2 : 1);
   });
 
-  zoomOutBtn.addEventListener('click', () => {
-    if (currentScale > 0.6) {
-      currentScale -= 0.3;
-      updateScale();
-    }
-  });
-
-  zoomResetBtn.addEventListener('click', () => {
-    currentScale = 1;
-    updateScale();
-  });
-
-  // Attach click to hero images & gallery thumbnails
+  // Attach Lightbox event listener to images across site
   document.addEventListener('click', (e) => {
-    if (e.target.matches('.article-hero-img, .gallery-thumb, .carousel-slide img')) {
+    if (e.target.matches('.insta-slide img, .gallery-thumb, .article-hero-img')) {
       modalImg.src = e.target.src;
-      modalCaption.textContent = e.target.alt || '';
-      currentScale = 1;
-      updateScale();
+      modalCaption.textContent = e.target.alt || e.target.closest('.insta-slide')?.getAttribute('data-caption') || '';
+      setScale(1);
       modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
     }
   });
 
   const closeModal = () => {
     modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   };
 
   closeBtn.addEventListener('click', closeModal);
   modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
+    if (e.target === modal || e.target.classList.contains('lightbox-viewport')) {
+      closeModal();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) {
+      closeModal();
+    }
   });
 
   /* ==========================================
-     3. STARTING POINT DISTANCE CALCULATOR
+     3. MOBILE NAVIGATION TOGGLE
      ========================================== */
-  const distanceMatrix = {
-    "chilika-lake": {
-      "Bhubaneswar": { dist: "70 km", time: "1 hr 45 min", route: "via NH-16 (towards Balugaon / Mangalajodi)" },
-      "Cuttack": { dist: "95 km", time: "2 hr 15 min", route: "via NH-16" },
-      "Berhampur": { dist: "110 km", time: "2 hr 30 min", route: "via NH-16 Northbound" },
-      "Puri": { dist: "50 km", time: "1 hr 15 min", route: "via Puri-Satapada Canal Road" }
-    },
-    "daringbadi": {
-      "Bhubaneswar": { dist: "245 km", time: "5 hr 45 min", route: "via NH-57 and Phulbani Ghat" },
-      "Cuttack": { dist: "260 km", time: "6 hr 10 min", route: "via Badamba - Narsinghpur route" },
-      "Berhampur": { dist: "125 km", time: "3 hr 30 min", route: "via Sorada Ghat Road" },
-      "Puri": { dist: "270 km", time: "6 hr 30 min", route: "via Bhubaneswar - Nayagarh" }
-    }
-  };
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navMenu = document.querySelector('.nav-menu');
 
-  const calcBtn = document.getElementById('calculateDistanceBtn');
-  if (calcBtn) {
-    calcBtn.addEventListener('click', () => {
-      const destinationId = calcBtn.getAttribute('data-destination');
-      const startPoint = document.getElementById('startLocationSelect').value;
-      const resultBox = document.getElementById('distanceResult');
-
-      if (!startPoint) {
-        alert('Please select your starting location.');
-        return;
-      }
-
-      const info = distanceMatrix[destinationId]?.[startPoint];
-
-      if (info) {
-        resultBox.innerHTML = `
-          <p><strong>Distance:</strong> ${info.dist} (${info.time} drive)</p>
-          <p style="margin-top: 4px; font-size: 0.9rem; color: #334155;"><strong>Recommended Route:</strong> ${info.route}</p>
-        `;
-        resultBox.style.display = 'block';
-      }
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', () => {
+      navMenu.classList.toggle('active');
     });
   }
 });
