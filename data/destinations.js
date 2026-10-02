@@ -29,7 +29,7 @@ const DESTINATIONS_DATA = [
     coverImage: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1000&q=80",
     excerpt: "Popularly known as the 'Kashmir of Odisha', offering pine forests, coffee gardens, and cool mountain breezes.",
     readTime: "8 min read",
-    articleUrl: "#",
+    articleUrl: "articles/daringbadi.html",
     bestTimeToVisit: "November to February",
     idealDuration: "2 - 3 Days"
   },
