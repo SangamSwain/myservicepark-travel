@@ -22,12 +22,18 @@
   padding: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
 body {
   font-family: var(--font-body);
   color: var(--text-main);
   background-color: #f8fafc;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
 }
 
 img {
@@ -37,6 +43,7 @@ img {
 }
 
 .container {
+  width: 100%;
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 1.25rem;
@@ -69,7 +76,7 @@ img {
 .brand-logo span {
   color: var(--primary);
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -96,26 +103,28 @@ img {
 .nav-btn {
   background: var(--primary);
   color: #fff !important;
-  padding: 0.5rem 1.1rem;
+  padding: 0.55rem 1.1rem;
   border-radius: 6px;
   font-weight: 600;
   transition: background 0.2s ease;
+  text-align: center;
 }
 
 .nav-btn:hover {
   background: var(--primary-hover);
 }
 
-/* Mobile Nav Toggle */
 .menu-toggle {
   display: none;
   background: none;
   border: none;
+  font-size: 1.5rem;
   cursor: pointer;
   color: var(--dark-bg);
+  padding: 0.5rem;
 }
 
-/* Article Layout Structure */
+/* Article Header */
 .article-header {
   margin: 2.5rem 0 1.5rem;
   text-align: center;
@@ -133,8 +142,8 @@ img {
 
 .section-title {
   font-family: var(--font-heading);
-  font-size: 2.5rem;
-  line-height: 1.2;
+  font-size: clamp(1.75rem, 4vw, 2.6rem);
+  line-height: 1.25;
   color: var(--dark-bg);
   margin-bottom: 0.75rem;
 }
@@ -143,44 +152,47 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   color: var(--text-muted);
 }
 
 .article-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 310px 1fr;
   gap: 2.5rem;
   margin: 2.5rem 0 4rem;
+  align-items: start;
 }
 
-/* Travel Quick Facts Sidebar */
+/* Quick Facts Sidebar */
 .travel-quick-info {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: var(--radius);
   padding: 1.5rem;
-  height: fit-content;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
   position: sticky;
   top: 90px;
 }
 
 .info-title {
   font-family: var(--font-heading);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   color: var(--dark-bg);
   padding-bottom: 0.75rem;
   border-bottom: 2px solid var(--border-color);
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-.info-item {
-  margin-bottom: 1rem;
-}
-
-.info-item:last-child {
-  margin-bottom: 0;
+.info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .info-item label {
@@ -190,18 +202,42 @@ img {
   letter-spacing: 0.8px;
   color: var(--text-muted);
   font-weight: 700;
+  margin-bottom: 0.15rem;
 }
 
 .info-item span {
   font-size: 0.95rem;
   color: var(--text-main);
   font-weight: 600;
+  line-height: 1.4;
+  display: block;
 }
 
-/* Main Article Content Formatting */
+.sidebar-action-btn {
+  display: block;
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.8rem 1rem;
+  background: var(--primary);
+  color: #ffffff;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+  transition: all 0.2s ease;
+}
+
+.sidebar-action-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Article Content Formatting */
 .article-body h2 {
   font-family: var(--font-heading);
-  font-size: 1.75rem;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
   color: var(--dark-bg);
   margin: 2rem 0 1rem;
 }
@@ -214,7 +250,7 @@ img {
   margin-bottom: 1.25rem;
   font-size: 1.05rem;
   color: #334155;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .article-body ul {
@@ -222,13 +258,14 @@ img {
 }
 
 .article-body li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   font-size: 1.02rem;
   color: #334155;
+  line-height: 1.6;
 }
 
 /* ==========================================================================
-   INSTAGRAM-STYLE CAROUSEL & LIGHTBOX
+   INFINITE INSTAGRAM-STYLE CAROUSEL
    ========================================================================== */
 
 .insta-carousel-wrapper {
@@ -244,7 +281,7 @@ img {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  background: #000;
+  background: #0f172a;
 }
 
 .insta-carousel-track {
@@ -254,11 +291,11 @@ img {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  scrollbar-width: none; /* Firefox */
+  scrollbar-width: none;
 }
 
 .insta-carousel-track::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
+  display: none;
 }
 
 .insta-slide {
@@ -292,39 +329,38 @@ img {
   z-index: 5;
 }
 
-/* Carousel Arrow Controls */
 .insta-nav-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.9);
   border: none;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: bold;
   color: var(--dark-bg);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
   z-index: 6;
   transition: background 0.2s, transform 0.2s;
 }
 
 .insta-nav-btn:hover {
   background: #ffffff;
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.08);
 }
 
 .insta-nav-btn.prev { left: 12px; }
 .insta-nav-btn.next { right: 12px; }
 
-/* Instagram Slide Caption Bar (Underneath Photo) */
+/* Caption Box Directly Below Active Image */
 .insta-caption-bar {
-  padding: 1rem 1.25rem;
+  padding: 1.1rem 1.25rem;
   background: var(--card-bg);
   border-top: 1px solid var(--border-color);
 }
@@ -337,22 +373,21 @@ img {
   font-weight: 700;
   color: var(--primary);
   text-transform: uppercase;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
 }
 
 .insta-caption-text {
   font-size: 0.95rem;
   color: var(--text-main);
   font-weight: 500;
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
-/* Dots Indicator Bar */
 .insta-dots {
   display: flex;
   justify-content: center;
   gap: 6px;
-  margin-top: 0.75rem;
+  margin-top: 0.85rem;
 }
 
 .insta-dot {
@@ -370,7 +405,7 @@ img {
   border-radius: 4px;
 }
 
-/* Fullscreen Lightbox & Zoom Engine */
+/* Lightbox Modal */
 .lightbox-modal {
   position: fixed;
   top: 0;
@@ -458,13 +493,13 @@ img {
   margin-top: 1rem;
   text-align: center;
   max-width: 800px;
-  padding: 0 1rem;
+  padding: 0 1.25rem;
 }
 
-/* Media Video Embed Container */
+/* Video Wrapper */
 .video-wrapper {
   position: relative;
-  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
   border-radius: var(--radius);
@@ -480,7 +515,7 @@ img {
   border: 0;
 }
 
-/* Call to Action Box (Portal Booking Bridge) */
+/* Call to Action Box */
 .booking-cta-box {
   background: linear-gradient(135deg, var(--dark-bg), #1e293b);
   color: #fff;
@@ -584,27 +619,74 @@ img {
   color: #64748b;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 868px) {
+/* ==========================================================================
+   MOBILE & TABLET RESPONSIVE FIXES
+   ========================================================================== */
+
+@media (max-width: 900px) {
   .article-layout {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .travel-quick-info {
     position: static;
-    order: -1;
-  }
-
-  .insta-carousel-viewport {
-    aspect-ratio: 4 / 3;
+    order: -1; /* Placed above main article body on mobile */
   }
 
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
+}
 
-  .section-title {
-    font-size: 2rem;
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: #ffffff;
+    flex-direction: column;
+    padding: 1.5rem;
+    gap: 1.2rem;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+    display: none;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-link {
+    width: 100%;
+    text-align: center;
+  }
+
+  .insta-carousel-viewport {
+    aspect-ratio: 4 / 3; /* Optimized for phone screens */
+  }
+
+  .insta-nav-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 1rem;
+  }
+
+  .insta-caption-bar {
+    padding: 1rem;
+  }
+
+  .booking-cta-box {
+    padding: 1.5rem;
+  }
+
+  .lightbox-controls {
+    display: none; /* Hide zoom buttons on small mobile; tap to zoom works */
   }
 }
