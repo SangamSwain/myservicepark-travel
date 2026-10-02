@@ -1,11 +1,63 @@
 /* ==========================================================================
-   MYSERVICEPARK TRAVEL - INTERACTION & INFINITE CAROUSEL ENGINE
+   MYSERVICEPARK TRAVEL - INTERACTION, CAROUSEL & FILTER ENGINE
    ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
   /* ==========================================
-     1. INFINITE INSTAGRAM-STYLE CAROUSEL ENGINE
+     1. DESTINATIONS LIVE FILTER & SEARCH LOGIC
+     ========================================== */
+  const searchInput = document.getElementById('destinationSearch');
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const destinationCards = document.querySelectorAll('#destinationsGrid .destination-card');
+  const noResults = document.getElementById('noResults');
+
+  if (destinationCards.length > 0) {
+    let activeCategory = 'all';
+    let searchQuery = '';
+
+    const filterDestinations = () => {
+      let visibleCount = 0;
+
+      destinationCards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        const cardKeywords = (card.getAttribute('data-keywords') + ' ' + card.querySelector('.card-title').textContent).toLowerCase();
+
+        const matchesCategory = (activeCategory === 'all' || cardCategory === activeCategory);
+        const matchesSearch = searchQuery === '' || cardKeywords.includes(searchQuery);
+
+        if (matchesCategory && matchesSearch) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      if (noResults) {
+        noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+    };
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.toLowerCase().trim();
+        filterDestinations();
+      });
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.getAttribute('data-category');
+        filterDestinations();
+      });
+    });
+  }
+
+  /* ==========================================
+     2. INFINITE INSTAGRAM-STYLE CAROUSEL ENGINE
      ========================================== */
   const carousels = document.querySelectorAll('.insta-carousel-wrapper');
 
@@ -21,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!track || slides.length === 0) return;
 
-    // Generate dynamic dots
     if (dotsContainer) {
       dotsContainer.innerHTML = '';
       slides.forEach((_, index) => {
@@ -97,25 +148,27 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /* ==========================================
-     2. FULLSCREEN LIGHTBOX & TAP-TO-ZOOM
+     3. LIGHTBOX & TAP-TO-ZOOM
      ========================================== */
-  const lightboxHTML = `
-    <div id="lightboxModal" class="lightbox-modal" aria-hidden="true">
-      <div class="lightbox-header-bar">
-        <div class="lightbox-controls">
-          <button id="zoomIn" class="lightbox-btn">Zoom In (+)</button>
-          <button id="zoomOut" class="lightbox-btn">Zoom Out (-)</button>
-          <button id="zoomReset" class="lightbox-btn">Reset</button>
+  if (!document.getElementById('lightboxModal')) {
+    const lightboxHTML = `
+      <div id="lightboxModal" class="lightbox-modal" aria-hidden="true">
+        <div class="lightbox-header-bar">
+          <div class="lightbox-controls">
+            <button id="zoomIn" class="lightbox-btn">Zoom In (+)</button>
+            <button id="zoomOut" class="lightbox-btn">Zoom Out (-)</button>
+            <button id="zoomReset" class="lightbox-btn">Reset</button>
+          </div>
+          <button id="lightboxClose" class="lightbox-close" aria-label="Close Lightbox">&times;</button>
         </div>
-        <button id="lightboxClose" class="lightbox-close" aria-label="Close Lightbox">&times;</button>
+        <div class="lightbox-viewport">
+          <img id="lightboxImg" class="lightbox-img" src="" alt="Full view" />
+        </div>
+        <p id="lightboxCaption" class="lightbox-caption-text"></p>
       </div>
-      <div class="lightbox-viewport">
-        <img id="lightboxImg" class="lightbox-img" src="" alt="Full view" />
-      </div>
-      <p id="lightboxCaption" class="lightbox-caption-text"></p>
-    </div>
-  `;
-  document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+    `;
+    document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+  }
 
   const modal = document.getElementById('lightboxModal');
   const modalImg = document.getElementById('lightboxImg');
@@ -129,49 +182,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const setScale = (scale) => {
     currentScale = Math.min(Math.max(scale, 0.6), 3);
-    modalImg.style.transform = `scale(${currentScale})`;
+    if (modalImg) modalImg.style.transform = `scale(${currentScale})`;
   };
 
   if (zoomInBtn) zoomInBtn.addEventListener('click', () => setScale(currentScale + 0.3));
   if (zoomOutBtn) zoomOutBtn.addEventListener('click', () => setScale(currentScale - 0.3));
   if (zoomResetBtn) zoomResetBtn.addEventListener('click', () => setScale(1));
 
-  modalImg.addEventListener('click', () => {
-    setScale(currentScale === 1 ? 1.8 : 1);
-  });
+  if (modalImg) {
+    modalImg.addEventListener('click', () => {
+      setScale(currentScale === 1 ? 1.8 : 1);
+    });
+  }
 
   document.addEventListener('click', (e) => {
     if (e.target.matches('.insta-slide img, .gallery-thumb, .article-hero-img')) {
-      modalImg.src = e.target.src;
-      modalCaption.textContent = e.target.alt || e.target.closest('.insta-slide')?.getAttribute('data-caption') || '';
+      if (modalImg) modalImg.src = e.target.src;
+      if (modalCaption) modalCaption.textContent = e.target.alt || e.target.closest('.insta-slide')?.getAttribute('data-caption') || '';
       setScale(1);
-      modal.classList.add('active');
-      modal.setAttribute('aria-hidden', 'false');
+      if (modal) {
+        modal.classList.add('active');
+        modal.setAttribute('aria-hidden', 'false');
+      }
       document.body.style.overflow = 'hidden';
     }
   });
 
   const closeModal = () => {
-    modal.classList.remove('active');
-    modal.setAttribute('aria-hidden', 'true');
+    if (modal) {
+      modal.classList.remove('active');
+      modal.setAttribute('aria-hidden', 'true');
+    }
     document.body.style.overflow = '';
   };
 
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal || e.target.classList.contains('lightbox-viewport')) {
-      closeModal();
-    }
-  });
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal || e.target.classList.contains('lightbox-viewport')) {
+        closeModal();
+      }
+    });
+  }
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
+    if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
       closeModal();
     }
   });
 
   /* ==========================================
-     3. RESPONSIVE MOBILE MENU
+     4. RESPONSIVE MOBILE MENU
      ========================================== */
   const menuToggle = document.querySelector('.menu-toggle');
   const navMenu = document.querySelector('.nav-menu');
