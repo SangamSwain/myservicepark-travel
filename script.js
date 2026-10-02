@@ -160,3 +160,54 @@ function initFaqAccordion() {
     });
   });
 }
+
+/* ==========================================
+   AUTOMATIC LIGHTBOX POPUP FUNCTIONALITY
+   ========================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  // 1. Inject Lightbox HTML into body
+  const lightboxHTML = `
+    <div id="lightboxModal" class="lightbox-modal" aria-hidden="true">
+      <div class="lightbox-content">
+        <button id="lightboxClose" class="lightbox-close" aria-label="Close image popup">&times;</button>
+        <img id="lightboxImg" class="lightbox-img" src="" alt="Full view image" />
+        <p id="lightboxCaption" class="lightbox-caption"></p>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', lightboxHTML);
+
+  const modal = document.getElementById('lightboxModal');
+  const modalImg = document.getElementById('lightboxImg');
+  const modalCaption = document.getElementById('lightboxCaption');
+  const closeBtn = document.getElementById('lightboxClose');
+
+  // 2. Attach click handlers to all article images and gallery thumbnails
+  const clickableImages = document.querySelectorAll('.article-hero-img, .gallery-thumb');
+
+  clickableImages.forEach(img => {
+    img.addEventListener('click', () => {
+      modalImg.src = img.src;
+      modalImg.alt = img.alt || 'Enlarged Image';
+      modalCaption.textContent = img.alt || '';
+      modal.classList.add('active');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden'; // Lock background scrolling
+    });
+  });
+
+  // 3. Close actions
+  const closeModal = () => {
+    modal.classList.remove('active');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  closeBtn.addEventListener('click', closeModal);
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) closeModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+  });
+});
