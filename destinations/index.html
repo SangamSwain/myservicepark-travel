@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Destinations Directory | MyServicePark Travel</title>
-  <meta name="description" content="Explore and search all curated travel destinations across Odisha." />
+  <meta name="description" content="Explore all curated travel destinations across Odisha." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,26 +32,24 @@
     </div>
   </header>
 
-  <!-- Page Header -->
-  <section class="section-block container" style="padding-bottom: 1.5rem;">
+  <section class="section-block container">
     <div class="section-center-header">
       <span class="section-tag">Directory</span>
       <h1 class="section-title">Explore Odisha Destinations</h1>
-      <p class="section-description">Filter by category or search by keywords to plan your trip.</p>
+      <p class="section-description">Search by district name, region, or travel preference.</p>
     </div>
 
-    <!-- Search & Filter Bar Controls -->
+    <!-- Universal Search & Filter -->
     <div class="filter-controls-container">
       <div class="search-input-wrapper">
         <span class="search-icon">&#128065;</span>
-        <input type="text" id="destinationSearch" class="search-input" placeholder="Search by destination name, district, or keyword..." />
+        <input type="text" id="destinationSearch" class="search-input" placeholder="Search by place name, district, or keyword..." />
       </div>
 
       <div class="filter-tabs">
         <button class="filter-btn active" data-category="all">All Places</button>
         <button class="filter-btn" data-category="beaches">Beaches & Coast</button>
         <button class="filter-btn" data-category="hills">Hills & Valleys</button>
-        <button class="filter-btn" data-category="heritage">Temples & Heritage</button>
         <button class="filter-btn" data-category="nature">Nature & Wildlife</button>
       </div>
     </div>
@@ -61,7 +59,6 @@
   <section class="section-block container" style="padding-top: 0;">
     <div class="cards-grid" id="destinationsGrid">
 
-      <!-- Card 1 -->
       <article class="destination-card" data-category="nature" data-keywords="chilika lake mangalajodi lagoon puri khordha bird sanctuary dolphins">
         <div class="card-image-wrap">
           <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=800&q=80" alt="Chilika Lake" />
@@ -74,7 +71,6 @@
         </div>
       </article>
 
-      <!-- Card 2 -->
       <article class="destination-card" data-category="beaches" data-keywords="gopalpur beach sea ganjam lighthouse retreat coastal">
         <div class="card-image-wrap">
           <img src="https://images.unsplash.com/photo-1432405972618-c60b0225b8f9?auto=format&fit=crop&w=800&q=80" alt="Gopalpur Beach" />
@@ -83,11 +79,10 @@
         <div class="card-content">
           <h3 class="card-title">Gopalpur-on-Sea</h3>
           <p class="card-text">A serene coastal retreat featuring historic lighthouses, golden sands, and peaceful sea breezes.</p>
-          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
+          <a href="../articles/gopalpur-beach.html" class="card-link">Explore Guide &rarr;</a>
         </div>
       </article>
 
-      <!-- Card 3 -->
       <article class="destination-card" data-category="hills" data-keywords="koraput valley waterfalls eastern ghats coffee plantation hills">
         <div class="card-image-wrap">
           <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80" alt="Koraput Hills" />
@@ -96,55 +91,15 @@
         <div class="card-content">
           <h3 class="card-title">Koraput Valley & Waterfalls</h3>
           <p class="card-text">Misty valleys, pine forests, organic coffee plantations, and breathtaking Eastern Ghats waterfalls.</p>
-          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
-        </div>
-      </article>
-
-      <!-- Card 4 -->
-      <article class="destination-card" data-category="heritage" data-keywords="konark sun temple heritage puri architecture stone sculptures">
-        <div class="card-image-wrap">
-          <img src="https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80" alt="Konark Sun Temple" />
-          <span class="card-badge">Puri District</span>
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Konark Sun Temple</h3>
-          <p class="card-text">A UNESCO World Heritage site showcasing 13th-century stone chariot architecture and intricate carvings.</p>
-          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
-        </div>
-      </article>
-
-      <!-- Card 5 -->
-      <article class="destination-card" data-category="nature" data-keywords="similipal national park tiger reserve mayurbhanj forest waterfalls">
-        <div class="card-image-wrap">
-          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80" alt="Similipal National Park" />
-          <span class="card-badge">Mayurbhanj</span>
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Similipal Biosphere Reserve</h3>
-          <p class="card-text">Dense sal forests, royal Bengal tigers, cascading Barehipani waterfalls, and pristine wilderness.</p>
-          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
-        </div>
-      </article>
-
-      <!-- Card 6 -->
-      <article class="destination-card" data-category="hills" data-keywords="daringbadi Kashmir of odisha kandhamal pine forest snow cold hill station">
-        <div class="card-image-wrap">
-          <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" alt="Daringbadi Hill Station" />
-          <span class="card-badge">Kandhamal</span>
-        </div>
-        <div class="card-content">
-          <h3 class="card-title">Daringbadi Hill Station</h3>
-          <p class="card-text">Popularly known as the 'Kashmir of Odisha', offering pine valleys, coffee gardens, and cool climate retreats.</p>
-          <a href="../articles/chilika-lake.html" class="card-link">Explore Guide &rarr;</a>
+          <a href="../articles/koraput-valley.html" class="card-link">Explore Guide &rarr;</a>
         </div>
       </article>
 
     </div>
 
-    <!-- Empty State Message -->
     <div id="noResults" class="no-results-box" style="display: none;">
       <h3>No matching destinations found</h3>
-      <p>Try searching with a different keyword or resetting your filter category.</p>
+      <p>Try searching with a different term or resetting your filter category.</p>
     </div>
   </section>
 
@@ -167,7 +122,7 @@
         <h4>Connect</h4>
         <ul>
           <li><a href="https://myservicepark.com/" target="_blank" rel="noopener">MyServicePark Portal</a></li>
-          <li><a href="https://github.com/sangamswain/myservicepark-travel" target="_blank" rel="noopener">GitHub Project</a></li>
+          <li><a href="https://github.com/SangamSwain/myservicepark-travel" target="_blank" rel="noopener">GitHub Project</a></li>
         </ul>
       </div>
     </div>
